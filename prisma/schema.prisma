@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Character {
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(15)
+  name_ko  String    @db.VarChar(10)
+  personas Persona[]
+}
+
+model Persona {
+  id                     Int       @id @default(autoincrement())
+  character_id           Int
+  rank                   Int
+  persona_name           String    @db.VarChar(18)
+  health                 Int
+  min_speed              Int
+  max_speed              Int
+  defence_level          Int
+  attack_resistance      String    @db.VarChar(4)
+  penetration_resistance String    @db.VarChar(4)
+  batting_resistance     String    @db.VarChar(4)
+  season                 String    @db.VarChar(6)
+  release_date           DateTime  @db.DateTime(0)
+  mental_strength        Int
+  sync                   Int
+  character              Character @relation(fields: [character_id], references: [id])
+
+  @@index([character_id], map: "Persona_character_id_fkey")
+}
