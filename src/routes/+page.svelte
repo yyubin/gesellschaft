@@ -1,7 +1,8 @@
 <!-- filepath: /Users/mac/Documents/게젤샤프트/gesellschaft/src/routes/+page.svelte -->
 <script lang="ts">
+  import CountdownTimer from "../components/main/CountdownTimer.svelte";
 </script>
 
-<main class="h-screen flex justify-center items-center">
-  <h1 class="text-4xl font-bold">Hello, UnoCSS!</h1>
+<main class="h-screen flex flex-col justify-center items-center bg-black">
+  <CountdownTimer />
 </main>
