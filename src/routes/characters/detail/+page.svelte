@@ -1,6 +1,4 @@
-<!-- filepath: /Users/mac/Documents/게젤샤프트/gesellschaft/src/routes/characters/detail/+page.svelte -->
 <script lang="ts">
-  // 서버 로드 함수가 반환한 데이터를 받습니다.
   export let data: {
     characters: { id: number; name: string; name_ko: string }[];
     personas: {
@@ -40,6 +38,12 @@
     selectedCharacterId: string | null;
     selectedPersonaId: string | null;
   };
+
+  let showSync3 = false;
+
+  function toggleSync() {
+    showSync3 = !showSync3;
+  }
 </script>
 
 <div class="container">
@@ -65,7 +69,7 @@
     <div class="topbar">
       <h2>Personas</h2>
       {#if data.personas.length > 0}
-        {#each data.personas as persona}
+        {#each data.personas.filter((persona) => persona.sync === 4) as persona}
           <a href="?characterId={persona.character_id}&personaId={persona.id}">
             <button
               class={data.selectedPersonaId == persona.id.toString()
@@ -85,6 +89,9 @@
     <div class="main">
       {#if data.personaDetails}
         <h2>Details: {data.personaDetails.persona_name}</h2>
+        <button on:click={toggleSync}>
+          {showSync3 ? "Show Sync 4" : "Show Sync 3"}
+        </button>
         <ul>
           <li><strong>ID:</strong> {data.personaDetails.id}</li>
           <li><strong>Rank:</strong> {data.personaDetails.rank}</li>
