@@ -5,7 +5,7 @@
   let videoUrl: string | null = null;
 
   onMount(async () => {
-    const channelName = "@ProjectMoonOfficial"; // 유튜브 채널 이름을 여기에 입력하세요
+    const channelName = "@ProjectMoonOfficial";
     const channelId = await fetchChannelId(channelName);
     if (channelId) {
       videoUrl = await fetchLatestVideo(channelId);

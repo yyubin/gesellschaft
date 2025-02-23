@@ -1,4 +1,3 @@
-<!-- filepath: /Users/mac/Documents/게젤샤프트/gesellschaft/src/components/CountdownTimer.svelte -->
 <script lang="ts">
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
@@ -14,12 +13,13 @@
     const difference = nextThursday.getTime() - now.getTime();
 
     if (difference > 0) {
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
       const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((difference / 1000 / 60) % 60);
       const seconds = Math.floor((difference / 1000) % 60);
 
       timeLeft.set(
-        `${hours.toString().padStart(2, "0")}:${minutes
+        `${days}일 ${hours.toString().padStart(2, "0")}:${minutes
           .toString()
           .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
       );
