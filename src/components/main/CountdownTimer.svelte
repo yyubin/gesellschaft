@@ -36,7 +36,7 @@
 </script>
 
 <div class="countdown-timer">
-  <p>Time left until next Thursday 5 AM:</p>
+  <p>다음 거던 보상 초기화까지</p>
   <p>{$timeLeft}</p>
 </div>
 
