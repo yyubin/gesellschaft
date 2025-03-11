@@ -19,14 +19,38 @@
   onMount(fetchNotice);
 </script>
 
-<div class="p-4 bg-gray-800 text-white rounded-lg shadow-md max-w-lg">
+<div
+  class="p-4 bg-gray-800 text-white rounded-lg shadow-md max-w-lg notice-container"
+>
   <h2 class="text-lg font-bold mb-2">최근 공지</h2>
-  <div class="text-sm">
-    <!-- store의 값을 구독하여 표시 -->
+  <div class="text-sm notice-content">
     {#if $notice}
-      {@html $notice} <!-- HTML 그대로 렌더링 -->
+      {@html $notice}
     {:else}
       <p>공지 없음</p>
     {/if}
   </div>
 </div>
+
+<style>
+  .notice-container {
+    max-width: 800px;
+    width: 100%;
+    min-height: 600px;
+    height: 800px;
+    overflow-y: auto;
+    padding: 16px;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    white-space: normal;
+  }
+
+  .notice-content img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .notice-content iframe {
+    max-width: 100%;
+  }
+</style>
