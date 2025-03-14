@@ -6,10 +6,9 @@
   import Footer from "../components/common/Footer.svelte";
 </script>
 
-<main class="h-screen flex flex-col justify-center items-center bg-black">
+<main class="flex flex-col justify-center items-center bg-black">
   <CountdownTimer />
   <LatestVideo />
-  <RecentNotice />
 </main>
 
 <Footer />
@@ -28,7 +27,7 @@
     flex-direction: column; /* 💡 세로 정렬 */
     justify-content: flex-start; /* 💡 위에서 아래로 자연스럽게 배치 */
     align-items: center; /* 💡 좌우 중앙 정렬 */
-    min-height: 100%; /* 💡 최소 높이 유지, 컨텐츠에 따라 자동 증가 */
+    min-height: 100%;
     width: 100%;
     text-align: center;
     padding: 20px; /* 💡 공지가 커지면 너무 딱 붙는 걸 방지 */
