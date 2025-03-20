@@ -4,7 +4,7 @@
     personas: {
       id: number;
       character_id: number;
-      rank: number;
+      rarity: number;
       persona_name: string;
       health: number;
       min_speed: number;
@@ -15,14 +15,13 @@
       batting_resistance: string;
       season: string;
       release_date: string;
-      mental_strength: number;
-      sync: number;
+      mental: number;
     }[];
     personaDetails: {
       id: number;
       character_id: number;
-      rank: number;
-      persona_name: string;
+      rarity: number;
+      name: string;
       health: number;
       min_speed: number;
       max_speed: number;
@@ -32,8 +31,7 @@
       batting_resistance: string;
       season: string;
       release_date: string;
-      mental_strength: number;
-      sync: number;
+      mental: number;
     } | null;
     selectedCharacterId: string | null;
     selectedPersonaId: string | null;
@@ -69,17 +67,17 @@
     <div class="topbar">
       <h2>Personas</h2>
       {#if data.personas.length > 0}
-        {#each data.personas.filter((persona) => persona.sync === 4) as persona}
-          <a href="?characterId={persona.character_id}&personaId={persona.id}">
-            <button
-              class={data.selectedPersonaId == persona.id.toString()
-                ? "selected"
-                : "unselected"}
-            >
-              {persona.persona_name}
-            </button>
-          </a>
-        {/each}
+        <ul>
+          {#each data.personas as persona}
+            <li>
+              <a
+                href="?characterId={persona.character_id}&personaId={persona.id}"
+              >
+                {persona.name}
+              </a>
+            </li>
+          {/each}
+        </ul>
       {:else}
         <p>Select a character to see its personas.</p>
       {/if}
@@ -94,7 +92,7 @@
         </button>
         <ul>
           <li><strong>ID:</strong> {data.personaDetails.id}</li>
-          <li><strong>Rank:</strong> {data.personaDetails.rank}</li>
+          <li><strong>Rank:</strong> {data.personaDetails.rarity}</li>
           <li><strong>Health:</strong> {data.personaDetails.health}</li>
           <li>
             <strong>Speed:</strong>
@@ -123,9 +121,8 @@
           </li>
           <li>
             <strong>Mental Strength:</strong>
-            {data.personaDetails.mental_strength}
+            {data.personaDetails.mental}
           </li>
-          <li><strong>Sync:</strong> {data.personaDetails.sync}</li>
         </ul>
       {:else}
         <p>Select a persona to view its details.</p>

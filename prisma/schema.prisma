@@ -1,3 +1,4 @@
+// filepath: /Users/mac/Documents/게젤샤프트/gesellschaft/prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,30 +8,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Character {
+model character {
   id       Int       @id @default(autoincrement())
-  name     String    @db.VarChar(15)
-  name_ko  String    @db.VarChar(10)
-  personas Persona[]
+  name     String    @db.VarChar(10)
+  name_ko  String    @db.VarChar(5)
+  personas persona[]
 }
 
-model Persona {
+model persona {
   id                     Int       @id @default(autoincrement())
   character_id           Int
-  rank                   Int
-  persona_name           String    @db.VarChar(18)
+  rarity                 Int
+  name                   String    @db.VarChar(18)
   health                 Int
   min_speed              Int
   max_speed              Int
-  defence_level          Int
-  attack_resistance      String    @db.VarChar(4)
-  penetration_resistance String    @db.VarChar(4)
-  batting_resistance     String    @db.VarChar(4)
+  guard_level            Int
+  attack_resistance      String    @db.VarChar(2)
+  penetration_resistance String    @db.VarChar(2)
+  batting_resistance     String    @db.VarChar(2)
   season                 String    @db.VarChar(6)
   release_date           DateTime  @db.DateTime(0)
-  mental_strength        Int
-  sync                   Int
-  character              Character @relation(fields: [character_id], references: [id])
+  mental                 Int
+  Column_15              Int?
+  Column_16              Int?
+  character              character @relation(fields: [character_id], references: [id])
 
-  @@index([character_id], map: "Persona_character_id_fkey")
+  @@index([character_id], map: "persona_character_id_fkey")
 }

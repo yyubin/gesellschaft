@@ -8,6 +8,7 @@
   };
 
   function handleButtonClick(id: number) {
+    console.log("id", id);
     selectedCharacterId.set(id);
     goto("/characters/detail");
   }
