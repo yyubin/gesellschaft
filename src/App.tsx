@@ -3,6 +3,8 @@ import { Routes, Route } from 'react-router-dom'
 import TopBar from './components/TopBar'
 import Footer from './components/Footer'
 import DdayCounter from './components/main/DdayCounter'
+import EgoPage from './pages/EgoPage'
+import PersonalityPage from './pages/PersonalityPage'
 
 function App(): JSX.Element {
   return (
