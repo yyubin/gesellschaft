@@ -1,18 +1,32 @@
 import React, { type JSX } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import TopBar from './components/TopBar'
 import Footer from './components/Footer'
 import DdayCounter from './components/main/DdayCounter'
 
 function App(): JSX.Element {
   return (
-    <div className="bg-black min-h-screen text-white flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white text-black">
       <TopBar />
-      <main className="flex-grow flex flex-col items-center justify-start pt-12">
-        <DdayCounter />
-        {/* 추후 메인 콘텐츠가 추가될 수 있는 자리 */}
+      <main className="flex-grow px-4 pt-10 pb-16 md:px-32">
+        <Routes>
+          <Route path="/" element={
+            <section className="w-full px-4 md:px-16">
+              <DdayCounter />
+              <div className="mt-12 text-zinc-700 text-base md:text-lg leading-relaxed">
+                이곳은 거울던전을 준비하는 공간입니다.<br />
+                다양한 기능은 앞으로 이곳에 추가될 예정입니다.
+              </div>
+            </section>
+          } />
+          <Route path="/인격" element={<PersonalityPage />} />
+          <Route path="/에고" element={<EgoPage />} />
+        </Routes>
+
       </main>
       <Footer />
     </div>
   )
 }
+
 export default App

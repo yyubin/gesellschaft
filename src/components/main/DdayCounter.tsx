@@ -22,11 +22,16 @@ export default function DdayCounter(): JSX.Element {
     }, 1000)
 
     return () => clearInterval(interval)
+
+
   }, [])
 
   return (
-    <div className="text-white text-2xl text-center py-4">
-      거던 초기화까지 // <span className="font-bold">{timeLeft}</span>
+    <div className="px-4 py-8 text-center sm:px-8 md:px-16 md:text-left">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+        거울던전 초기화까지  
+      </h1>
+      <span className="font-bold">{timeLeft}</span>
     </div>
   )
 }
