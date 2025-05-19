@@ -1,3 +1,5 @@
+import api from "../lib/axios";
+
 export interface PersonaSearchRequest {
     characterIds: string[];
     sinIds: string[];
@@ -7,16 +9,17 @@ export interface PersonaSearchRequest {
     size: number;
 }
 
+export interface PersonaResponse {
+    id: number;
+    name: string;
+    imagePath: string;
+  }
+
 export async function searchPersonas(req: PersonaSearchRequest) {
-    const response = await fetch("/api/personas/search", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(req),
-    });
+    const response = await api.post<{ content: PersonaResponse[]; totalPages: number; totalElements: number }>(
+      "/personas/search",
+      req
+    );
   
-    if (!response.ok) {
-      throw new Error("검색 요청 실패");
-    }
-  
-    return await response.json(); // 응답: Page<PersonaResponse> 형태 예상
-}
+    return response.data; // Page<PersonaResponse>
+  }
