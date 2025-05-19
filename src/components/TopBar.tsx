@@ -8,8 +8,8 @@ export default function TopBar(): JSX.Element {
         게젤샤프트
       </Link>
       <nav className="flex flex-wrap justify-center gap-6 text-base md:text-lg font-medium text-white">
-        <Link to="/인격" className="hover:text-white-400 transition-colors">인격</Link>
-        <Link to="/에고" className="hover:text-white-400 transition-colors">에고</Link>
+        <Link to="/personas" className="hover:text-white-400 transition-colors">인격</Link>
+        <Link to="/egos" className="hover:text-white-400 transition-colors">에고</Link>
         <span>덱메이커</span>
         <span>거울던전</span>
       </nav>

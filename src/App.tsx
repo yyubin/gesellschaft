@@ -21,8 +21,8 @@ function App(): JSX.Element {
               </div>
             </section>
           } />
-          <Route path="/인격" element={<PersonalityPage />} />
-          <Route path="/에고" element={<EgoPage />} />
+          <Route path="/personas" element={<PersonalityPage />} />
+          <Route path="/egos" element={<EgoPage />} />
         </Routes>
 
       </main>
