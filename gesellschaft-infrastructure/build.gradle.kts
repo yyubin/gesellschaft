@@ -55,28 +55,29 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // Jinx (DDL 생성)
-    annotationProcessor("io.github.yyubin:jinx-processor:0.0.7")
-    implementation("io.github.yyubin:jinx-core:0.0.7")
-    implementation("io.github.yyubin:jinx-cli:0.0.7")
+    annotationProcessor("io.github.yyubin:jinx-processor:0.0.13")
+    implementation("io.github.yyubin:jinx-core:0.0.13")
 
     // Project dependencies
     implementation(project(":gesellschaft-domain"))
     implementation(project(":gesellschaft-application"))
 }
 
-tasks.register<JavaExec>("jinxGenerate") {
-    group = "jinx"
-    description = "Generate DDL and Liquibase YAML from entity changes via Jinx CLI"
+val jinxCli by configurations.creating
 
-    mainClass.set("io.github.yyubin.jinx.cli.JinxApplication")
-
-    classpath = sourceSets.main.get().runtimeClasspath
-
-    args = listOf(
-        "migrate",
-        "--out=build/jinx"
-    )
+dependencies {
+    "jinxCli"("io.github.yyubin:jinx-cli:0.0.13")
 }
+
+tasks.register<JavaExec>("jinxMigrate") {
+    group = "jinx"
+    classpath = configurations["jinxCli"]
+    mainClass.set("org.jinx.cli.JinxCli")
+    args("db", "migrate", "-d", "mysql")
+    dependsOn("classes")
+}
+
+
 
 tasks.withType<Test> {
     useJUnitPlatform()
