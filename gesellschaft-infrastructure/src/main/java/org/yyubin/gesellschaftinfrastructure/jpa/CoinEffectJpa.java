@@ -22,7 +22,7 @@ public class CoinEffectJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "trigger_json", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "trigger_json", columnDefinition = "TEXT")
     private String triggerJson;  // JSON 직렬화된 SkillTrigger
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

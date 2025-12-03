@@ -30,22 +30,21 @@ public class SkillJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private int skillNumber;  // 1, 2, 3
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private SkillCategoryType skillCategory;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private SinAffinity sinAffinity;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 30)
+    @Column(length = 30)
     private KeywordType keywordType;
 
     @Column

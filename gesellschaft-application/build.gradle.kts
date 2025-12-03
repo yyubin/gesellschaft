@@ -14,6 +14,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 
     implementation(project(":gesellschaft-domain"))
+
+    // Lombok
+    compileOnly("org.projectlombok:lombok:1.18.30")
+    annotationProcessor("org.projectlombok:lombok:1.18.30")
 }
 
 tasks.test {

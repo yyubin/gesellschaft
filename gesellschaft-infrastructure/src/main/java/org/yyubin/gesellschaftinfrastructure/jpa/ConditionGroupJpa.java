@@ -24,10 +24,10 @@ import java.util.List;
 public class ConditionGroupJpa extends AbstractConditionJpa {
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "operator", nullable = false)
+    @Column(name = "operator")
     private LogicalOperator operator;
 
-    @Column(name = "ordered", nullable = false)
+    @Column(name = "ordered")
     private boolean ordered;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

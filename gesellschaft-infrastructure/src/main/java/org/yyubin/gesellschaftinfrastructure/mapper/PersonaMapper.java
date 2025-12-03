@@ -1,5 +1,6 @@
 package org.yyubin.gesellschaftinfrastructure.mapper;
 
+import model.SubAffiliation;
 import model.persona.*;
 import org.springframework.stereotype.Component;
 import org.yyubin.gesellschaftinfrastructure.jpa.PersonaJpa;
@@ -60,6 +61,11 @@ public class PersonaMapper {
             ? new SeasonInfo(jpa.getSeasonType(), jpa.getSeasonNumber())
             : null;
 
+        // SubAffiliation 변환
+        SubAffiliation affiliation = jpa.getAffiliation() != null
+            ? jpa.getAffiliation().toDomain()
+            : null;
+
         // 도메인 객체 생성
         return Persona.create(
             jpa.getName(),
@@ -71,14 +77,17 @@ public class PersonaMapper {
             speedInfo,
             healthInfo,
             seasonInfo,
+            jpa.getDefenseLevel(),
+            jpa.getMentality(),
+            affiliation,
             jpa.getSkills() != null
-                ? jpa.getSkills().stream().map(skillMapper::toDomain).collect(Collectors.toList())
+                ? jpa.getSkills().stream().map(skillMapper::toDomain).toList()
                 : List.of(),
             jpa.getPassives() != null
-                ? jpa.getPassives().stream().map(passiveMapper::toDomain).collect(Collectors.toList())
+                ? jpa.getPassives().stream().map(passiveMapper::toDomain).toList()
                 : List.of(),
             jpa.getImages() != null
-                ? jpa.getImages().stream().map(imageMapper::toDomain).collect(Collectors.toList())
+                ? jpa.getImages().stream().map(imageMapper::toDomain).toList()
                 : List.of()
         ).withId(jpa.getId());
     }

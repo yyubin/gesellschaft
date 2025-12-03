@@ -34,7 +34,7 @@ public class PersonaJpa {
     private String nameEn;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private GradeType grade;
 
     @Column
@@ -45,29 +45,29 @@ public class PersonaJpa {
 
     // === 내성 정보 (Embedded) ===
     @Enumerated(EnumType.STRING)
-    @Column(name = "slash_resistance", nullable = false, length = 20)
+    @Column(name = "slash_resistance", length = 20)
     private ResistanceType slashResistance;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "penetration_resistance", nullable = false, length = 20)
+    @Column(name = "penetration_resistance", length = 20)
     private ResistanceType penetrationResistance;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "blunt_resistance", nullable = false, length = 20)
+    @Column(name = "blunt_resistance", length = 20)
     private ResistanceType bluntResistance;
 
     // === 속도 정보 (Embedded) ===
-    @Column(name = "min_speed", nullable = false)
+    @Column(name = "min_speed")
     private int minSpeed;
 
-    @Column(name = "max_speed", nullable = false)
+    @Column(name = "max_speed")
     private int maxSpeed;
 
     // === 체력 정보 (Embedded) ===
-    @Column(name = "base_health", nullable = false)
+    @Column(name = "base_health")
     private int baseHealth;
 
-    @Column(name = "growth_rate", nullable = false)
+    @Column(name = "growth_rate")
     private double growthRate;
 
     @Column(name = "disturbed1")
@@ -87,10 +87,20 @@ public class PersonaJpa {
     @Column(name = "season_number")
     private Integer seasonNumber;
 
+    // === 추가 정보 ===
+    @Column(name = "defense_level")
+    private int defenseLevel;
+
+    private int mentality;
+
     // === 관계 ===
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sinner_id", nullable = false)
+    @JoinColumn(name = "sinner_id")
     private SinnerJpa sinner;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "affiliation_id")
+    private SubAffiliationJpa affiliation;
 
     @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SkillJpa> skills = new ArrayList<>();
@@ -106,7 +116,8 @@ public class PersonaJpa {
                       ResistanceType slashResistance, ResistanceType penetrationResistance,
                       ResistanceType bluntResistance, int minSpeed, int maxSpeed,
                       int baseHealth, double growthRate, int disturbed1, int disturbed2, int disturbed3,
-                      SeasonType seasonType, Integer seasonNumber) {
+                      SeasonType seasonType, Integer seasonNumber,
+                      int defenseLevel, int mentality) {
         this.name = name;
         this.nameEn = nameEn;
         this.grade = grade;
@@ -124,6 +135,8 @@ public class PersonaJpa {
         this.disturbed3 = disturbed3;
         this.seasonType = seasonType;
         this.seasonNumber = seasonNumber;
+        this.defenseLevel = defenseLevel;
+        this.mentality = mentality;
     }
 
     // ID를 포함한 전체 생성자 (매퍼 전용)
@@ -131,7 +144,8 @@ public class PersonaJpa {
                       ResistanceType slashResistance, ResistanceType penetrationResistance,
                       ResistanceType bluntResistance, int minSpeed, int maxSpeed,
                       int baseHealth, double growthRate, int disturbed1, int disturbed2, int disturbed3,
-                      SeasonType seasonType, Integer seasonNumber) {
+                      SeasonType seasonType, Integer seasonNumber,
+                      int defenseLevel, int mentality, SubAffiliationJpa affiliation) {
         this.id = id;
         this.name = name;
         this.nameEn = nameEn;
@@ -150,6 +164,9 @@ public class PersonaJpa {
         this.disturbed3 = disturbed3;
         this.seasonType = seasonType;
         this.seasonNumber = seasonNumber;
+        this.defenseLevel = defenseLevel;
+        this.mentality = mentality;
+        this.affiliation = affiliation;
     }
 
     /**
@@ -189,7 +206,11 @@ public class PersonaJpa {
             healthInfo != null ? healthInfo.getDisturbed3() : 0,
             // Season
             seasonInfo != null ? seasonInfo.getSeasonType() : null,
-            seasonInfo != null ? seasonInfo.getNumber() : null
+            seasonInfo != null ? seasonInfo.getNumber() : null,
+            // Additional
+            domain.getDefenseLevel(),
+            domain.getMentality(),
+            SubAffiliationJpa.ofDomain(domain.getAffiliation())
         );
     }
 
@@ -235,6 +256,13 @@ public class PersonaJpa {
             this.seasonType = domain.getSeasonInfo().getSeasonType();
             this.seasonNumber = domain.getSeasonInfo().getNumber();
         }
+
+        // Additional
+        this.defenseLevel = domain.getDefenseLevel();
+        this.mentality = domain.getMentality();
+        if (domain.getAffiliation() != null) {
+            this.affiliation = SubAffiliationJpa.ofDomain(domain.getAffiliation());
+        }
     }
 
     // === 양방향 관계 편의 메서드 ===
@@ -271,5 +299,9 @@ public class PersonaJpa {
     public void removeImage(PersonaImageJpa image) {
         this.images.remove(image);
         image.setPersona(null);
+    }
+
+    public void setAffiliation(SubAffiliationJpa affiliation) {
+        this.affiliation = affiliation;
     }
 }

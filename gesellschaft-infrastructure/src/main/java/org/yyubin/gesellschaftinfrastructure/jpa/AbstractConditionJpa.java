@@ -23,7 +23,7 @@ public abstract class AbstractConditionJpa {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "scope", nullable = false)
+    @Column(name = "scope")
     private ConditionScope scope;
 
     protected AbstractConditionJpa(ConditionScope scope) {

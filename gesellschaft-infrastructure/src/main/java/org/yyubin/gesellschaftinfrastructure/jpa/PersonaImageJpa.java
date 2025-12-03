@@ -23,20 +23,18 @@ public class PersonaImageJpa {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 10)
+    @Column(length = 10)
     private ImageType type;
 
-    @Column(nullable = false, length = 500)
+    @Column(length = 500)
     private String url;
 
-    @Column(nullable = false)
     private int priority;
 
-    @Column(nullable = false)
     private boolean isPrimary;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "persona_id", nullable = false)
+    @JoinColumn(name = "persona_id")
     private PersonaJpa persona;
 
     @Builder

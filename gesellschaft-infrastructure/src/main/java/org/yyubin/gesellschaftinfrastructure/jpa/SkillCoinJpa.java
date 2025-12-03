@@ -25,16 +25,15 @@ public class SkillCoinJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private int orderIndex;  // 코인 순서 (0부터)
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private CoinType coinType;
 
     // 관계
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stats_by_sync_id", nullable = false)
+    @JoinColumn(name = "stats_by_sync_id")
     private SkillStatsBySyncJpa statsBySync;
 
     @OneToMany(mappedBy = "skillCoin", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -34,6 +34,7 @@ dependencies {
 
     implementation(project(":gesellschaft-application"))
     implementation(project(":gesellschaft-infrastructure"))
+    implementation(project(":gesellschaft-domain"))
 }
 
 tasks.withType<Test> {

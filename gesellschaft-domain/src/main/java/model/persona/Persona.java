@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import lombok.Builder;
 import lombok.Getter;
 import model.GradeType;
+import model.SubAffiliation;
 import model.passive.PersonaPassive;
 import model.skill.Skill;
 import model.skill.SyncLevel;
@@ -18,6 +20,7 @@ import model.skill.SyncLevel;
  * - 불변 객체
  */
 @Getter
+@Builder
 public final class Persona {
 
     private final Long id;                      // nullable (생성 시)
@@ -32,6 +35,9 @@ public final class Persona {
     private final SpeedInfo speedInfo;
     private final HealthInfo healthInfo;
     private final SeasonInfo seasonInfo;
+    private final int defenseLevel;             // 방어 레벨
+    private final int mentality;                // 정신력
+    private final SubAffiliation affiliation;   // 소속
 
     // 스킬 (동기화 레벨별 스탯 포함)
     private final List<Skill> skills;
@@ -48,6 +54,9 @@ public final class Persona {
                    SpeedInfo speedInfo,
                    HealthInfo healthInfo,
                    SeasonInfo seasonInfo,
+                   int defenseLevel,
+                   int mentality,
+                   SubAffiliation affiliation,
                    List<Skill> skills,
                    List<PersonaPassive> passives,
                    List<PersonaImage> images) {
@@ -61,6 +70,9 @@ public final class Persona {
         this.speedInfo = speedInfo;
         this.healthInfo = healthInfo;
         this.seasonInfo = seasonInfo;
+        this.defenseLevel = defenseLevel;
+        this.mentality = mentality;
+        this.affiliation = affiliation;
         this.skills = skills != null ? List.copyOf(skills) : List.of();
         this.passives = passives != null ? List.copyOf(passives) : List.of();
         this.images = images != null ? List.copyOf(images) : List.of();
@@ -73,11 +85,15 @@ public final class Persona {
                                  SpeedInfo speedInfo,
                                  HealthInfo healthInfo,
                                  SeasonInfo seasonInfo,
+                                 int defenseLevel,
+                                 int mentality,
+                                 SubAffiliation affiliation,
                                  List<Skill> skills,
                                  List<PersonaPassive> passives,
                                  List<PersonaImage> images) {
         return new Persona(null, name, nameEn, grade, releaseDate, maxLevel,
                           resistanceInfo, speedInfo, healthInfo, seasonInfo,
+                          defenseLevel, mentality, affiliation,
                           skills, passives, images);
     }
 
@@ -89,7 +105,8 @@ public final class Persona {
         return new Persona(id, this.name, this.nameEn, this.grade,
                           this.releaseDate, this.maxLevel,
                           this.resistanceInfo, this.speedInfo, this.healthInfo,
-                          this.seasonInfo, this.skills, this.passives, this.images);
+                          this.seasonInfo, this.defenseLevel, this.mentality, this.affiliation,
+                          this.skills, this.passives, this.images);
     }
 
     // === 스킬 관련 메서드 ===
@@ -113,7 +130,8 @@ public final class Persona {
         return new Persona(this.id, this.name, this.nameEn, this.grade,
                           this.releaseDate, this.maxLevel,
                           this.resistanceInfo, this.speedInfo, this.healthInfo,
-                          this.seasonInfo, updated, this.passives, this.images);
+                          this.seasonInfo, this.defenseLevel, this.mentality, this.affiliation,
+                          updated, this.passives, this.images);
     }
 
     // === 패시브 관련 메서드 ===
@@ -154,7 +172,8 @@ public final class Persona {
         return new Persona(this.id, this.name, this.nameEn, this.grade,
                           this.releaseDate, this.maxLevel,
                           this.resistanceInfo, this.speedInfo, this.healthInfo,
-                          this.seasonInfo, this.skills, updated, this.images);
+                          this.seasonInfo, this.defenseLevel, this.mentality, this.affiliation,
+                          this.skills, updated, this.images);
     }
 
     // === 이미지 관련 메서드 ===
@@ -186,7 +205,8 @@ public final class Persona {
         return new Persona(this.id, this.name, this.nameEn, this.grade,
                           this.releaseDate, this.maxLevel,
                           this.resistanceInfo, this.speedInfo, this.healthInfo,
-                          this.seasonInfo, this.skills, this.passives, updated);
+                          this.seasonInfo, this.defenseLevel, this.mentality, this.affiliation,
+                          this.skills, this.passives, updated);
     }
 
     @Override
@@ -227,6 +247,9 @@ public final class Persona {
         private SpeedInfo speedInfo;
         private HealthInfo healthInfo;
         private SeasonInfo seasonInfo;
+        private int defenseLevel;
+        private int mentality;
+        private SubAffiliation affiliation;
         private List<Skill> skills;
         private List<PersonaPassive> passives;
         private List<PersonaImage> images;
@@ -276,6 +299,21 @@ public final class Persona {
             return this;
         }
 
+        public Builder defenseLevel(int defenseLevel) {
+            this.defenseLevel = defenseLevel;
+            return this;
+        }
+
+        public Builder mentality(int mentality) {
+            this.mentality = mentality;
+            return this;
+        }
+
+        public Builder affiliation(SubAffiliation affiliation) {
+            this.affiliation = affiliation;
+            return this;
+        }
+
         public Builder skills(List<Skill> skills) {
             this.skills = skills;
             return this;
@@ -294,6 +332,7 @@ public final class Persona {
         public Persona build() {
             return Persona.create(name, nameEn, grade, releaseDate, maxLevel,
                                  resistanceInfo, speedInfo, healthInfo, seasonInfo,
+                                 defenseLevel, mentality, affiliation,
                                  skills, passives, images);
         }
     }

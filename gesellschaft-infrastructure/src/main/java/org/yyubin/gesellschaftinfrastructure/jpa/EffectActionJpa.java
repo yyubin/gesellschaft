@@ -21,7 +21,7 @@ public class EffectActionJpa {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "action_type", nullable = false)
+    @Column(name = "action_type")
     private ActionType actionType;
 
     @Column(name = "stat_code")

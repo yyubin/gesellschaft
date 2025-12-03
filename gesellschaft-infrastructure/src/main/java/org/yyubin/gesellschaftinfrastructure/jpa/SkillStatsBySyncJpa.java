@@ -27,27 +27,22 @@ public class SkillStatsBySyncJpa {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 10)
+    @Column(length = 10)
     private SyncLevel syncLevel;  // SYNC_1, SYNC_2, SYNC_3, SYNC_4
 
-    @Column(nullable = false)
     private int basePower;
 
-    @Column(nullable = false)
     private int coinPower;
 
-    @Column(nullable = false)
     private int coinCount;
 
-    @Column(nullable = false)
     private int weight;
 
-    @Column(nullable = false)
     private int level;
 
     // 관계
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "skill_id", nullable = false)
+    @JoinColumn(name = "skill_id")
     private SkillJpa skill;
 
     @OneToMany(mappedBy = "statsBySync", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -21,13 +21,13 @@ import model.skill.ConditionTarget;
 public class RangeConditionJpa extends AbstractConditionJpa {
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "target", nullable = false)
+    @Column(name = "target")
     private ConditionTarget target;
 
-    @Column(name = "stat_code", nullable = false)
+    @Column(name = "stat_code")
     private String statCode;
 
-    @Column(name = "min_inclusive", nullable = false)
+    @Column(name = "min_inclusive")
     private int minInclusive;
 
     @Column(name = "max_exclusive")

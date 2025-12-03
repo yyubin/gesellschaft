@@ -26,11 +26,11 @@ public class PersonaPassiveJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 10)
+    @Column(length = 10)
     private PassiveKind kind;  // NORMAL / SUPPORT
 
     @Enumerated(EnumType.STRING)
@@ -51,7 +51,7 @@ public class PersonaPassiveJpa {
 
     // 관계
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "persona_id", nullable = false)
+    @JoinColumn(name = "persona_id")
     private PersonaJpa persona;
 
     @OneToOne(mappedBy = "personaPassive", cascade = CascadeType.ALL, orphanRemoval = true)

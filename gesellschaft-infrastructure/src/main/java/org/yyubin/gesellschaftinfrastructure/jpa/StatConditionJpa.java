@@ -22,17 +22,17 @@ import model.skill.ConditionTarget;
 public class StatConditionJpa extends AbstractConditionJpa {
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "target", nullable = false)
+    @Column(name = "target")
     private ConditionTarget target;
 
-    @Column(name = "stat_code", nullable = false)
+    @Column(name = "stat_code")
     private String statCode;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "operator", nullable = false)
+    @Column(name = "operator")
     private ConditionOperator operator;
 
-    @Column(name = "threshold", nullable = false)
+    @Column(name = "threshold")
     private int threshold;
 
     public StatConditionJpa(ConditionScope scope, ConditionTarget target, String statCode,

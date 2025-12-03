@@ -32,10 +32,10 @@ public class EffectBranchJpa {
     @OrderColumn(name = "action_order")
     private List<EffectActionJpa> actions = new ArrayList<>();
 
-    @Column(name = "branch_order", nullable = false)
+    @Column(name = "branch_order")
     private int order;
 
-    @Column(name = "stop_on_match", nullable = false)
+    @Column(name = "stop_on_match")
     private boolean stopOnMatch;
 
     @Column(name = "original_text", columnDefinition = "TEXT")

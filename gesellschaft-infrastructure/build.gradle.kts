@@ -55,8 +55,8 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // Jinx (DDL 생성)
-    annotationProcessor("io.github.yyubin:jinx-processor:0.0.13")
-    implementation("io.github.yyubin:jinx-core:0.0.13")
+    annotationProcessor("io.github.yyubin:jinx-processor:0.0.14")
+    implementation("io.github.yyubin:jinx-core:0.0.14")
 
     // Project dependencies
     implementation(project(":gesellschaft-domain"))
@@ -66,7 +66,7 @@ dependencies {
 val jinxCli by configurations.creating
 
 dependencies {
-    "jinxCli"("io.github.yyubin:jinx-cli:0.0.13")
+    "jinxCli"("io.github.yyubin:jinx-cli:0.0.14")
 }
 
 tasks.register<JavaExec>("jinxMigrate") {
@@ -77,7 +77,13 @@ tasks.register<JavaExec>("jinxMigrate") {
     dependsOn("classes")
 }
 
-
+tasks.register<JavaExec>("jinxPromoteBaseline") {
+    group = "jinx"
+    classpath = configurations["jinxCli"]
+    mainClass.set("org.jinx.cli.JinxCli")
+    args("db", "promote-baseline", "--force")  // DB 정보 불필요
+    dependsOn("classes")
+}
 
 tasks.withType<Test> {
     useJUnitPlatform()
