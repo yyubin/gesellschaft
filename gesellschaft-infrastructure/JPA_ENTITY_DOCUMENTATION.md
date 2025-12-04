@@ -10,8 +10,14 @@
    - [패시브 관련 엔티티](#3-패시브-관련-엔티티)
    - [효과 시스템 엔티티](#4-효과-시스템-엔티티)
    - [조건 시스템 엔티티](#5-조건-시스템-엔티티)
-5. [주요 설계 패턴](#주요-설계-패턴)
-6. [데이터베이스 매핑 전략](#데이터베이스-매핑-전략)
+5. [Enum 타입 정의](#enum-타입-정의)
+   - [코어 Enum](#1-코어-enum)
+   - [스킬 관련 Enum](#2-스킬-관련-enum)
+   - [효과 시스템 Enum](#3-효과-시스템-enum)
+   - [조건 시스템 Enum](#4-조건-시스템-enum)
+   - [패시브 관련 Enum](#5-패시브-관련-enum)
+6. [주요 설계 패턴](#주요-설계-패턴)
+7. [데이터베이스 매핑 전략](#데이터베이스-매핑-전략)
 
 ---
 
@@ -668,6 +674,638 @@ ConditionGroup (AND)
 
 ---
 
+## Enum 타입 정의
+
+이 섹션은 `gesellschaft-domain/src/main/java/model` 패키지에 정의된 모든 Enum 타입을 설명합니다.
+
+### 1. 코어 Enum
+
+#### 1.1 GradeType
+
+**설명:** 인격의 등급 (희귀도)
+
+**패키지:** `model`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `ONE` | 1성 인격 |
+| `TWO` | 2성 인격 |
+| `THREE` | 3성 인격 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/GradeType.java:1`
+
+---
+
+#### 1.2 AttackType
+
+**설명:** 공격 타입 (피해 속성)
+
+**패키지:** `model`
+
+**값:**
+
+| Enum 값 | 설명 (한글) |
+|---------|-------------|
+| `SLASH` | 참격 |
+| `PIERCE` | 관통 |
+| `BLUNT` | 타격 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/AttackType.java:1`
+
+---
+
+#### 1.3 SinAffinity
+
+**설명:** 죄악 속성 (림버스 컴퍼니의 7가지 대죄)
+
+**패키지:** `model`
+
+**값:**
+
+| Enum 값 | 한글명 (`nameKo`) |
+|---------|-------------------|
+| `WRATH` | 분노 |
+| `LUST` | 색욕 |
+| `SLOTH` | 나태 |
+| `GREED` | 탐식 |
+| `GLOOM` | 우울 |
+| `PRIDE` | 오만 |
+| `ENVY` | 질투 |
+| `NONE` | 없음 |
+
+**특징:**
+- `@Getter` 어노테이션으로 `nameKo` 필드 접근 가능
+- 게임 내 죄악 공명 시스템에 사용
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/SinAffinity.java:1`
+
+---
+
+#### 1.4 KeywordType
+
+**설명:** 스킬 키워드 타입 (상태 이상 속성)
+
+**패키지:** `model`
+
+**값:**
+
+| Enum 값 | 한글명 (`nameKo`) |
+|---------|-------------------|
+| `BURN` | 화상 |
+| `BLEED` | 출혈 |
+| `TREMOR` | 진동 |
+| `RUPTURE` | 파열 |
+| `SINKING` | 침잠 |
+| `BREATH` | 호흡 |
+| `CHARGE` | 충전 |
+| `NONE` | 없음 |
+
+**특징:**
+- `@Getter` 어노테이션으로 `nameKo` 필드 접근 가능
+- 스킬이 주로 다루는 상태 이상 종류를 나타냄
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/KeywordType.java:1`
+
+---
+
+#### 1.5 ResistanceType
+
+**설명:** 내성 타입 (공격 타입에 대한 저항력)
+
+**패키지:** `model.persona`
+
+**값:**
+
+| Enum 값 | 설명 (한글) |
+|---------|-------------|
+| `NORMAL` | 보통 (1.0배) |
+| `WEAK` | 취약 (더 많은 피해) |
+| `RESIST` | 내성 (적은 피해) |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/persona/ResistanceType.java:1`
+
+---
+
+#### 1.6 SeasonType
+
+**설명:** 시즌 타입 (인격 출시 시즌 분류)
+
+**패키지:** `model.persona`
+
+**값:**
+
+| Enum 값 | 표시명 (`displayName`) |
+|---------|------------------------|
+| `NORMAL` | 통상 |
+| `SEASON_NORMAL` | 시즌 |
+| `SEASON_EVENT` | 시즌 이벤트 |
+| `WALPURGISNACHT` | 발푸르기스 |
+
+**특징:**
+- `@Getter` 어노테이션으로 `displayName` 필드 접근 가능
+- 인격의 출시 시기 및 획득 방법 분류
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/persona/SeasonType.java:1`
+
+---
+
+#### 1.7 ImageType
+
+**설명:** 인격 이미지 타입
+
+**패키지:** `model.persona`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `A` | 기본 일러스트 |
+| `B` | 대체 일러스트 |
+| `AC` | 기본 코어파트 |
+| `BC` | 대체 코어파트 |
+| `SD` | SD 일러스트 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/persona/ImageType.java:1`
+
+---
+
+### 2. 스킬 관련 Enum
+
+#### 2.1 SkillCategoryType
+
+**설명:** 스킬 카테고리 (공격/방어)
+
+**패키지:** `model.skill`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `ATTACK` | 공격 스킬 |
+| `DEFENSE` | 방어 스킬 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/SkillCategoryType.java:1`
+
+---
+
+#### 2.2 DefenseType
+
+**설명:** 방어 스킬 타입
+
+**패키지:** `model.skill`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `COUNTER` | 반격 |
+| `EVADE` | 회피 |
+| `GUARD` | 방어 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/DefenseType.java:1`
+
+---
+
+#### 2.3 SyncLevel
+
+**설명:** 동기화 레벨 (인격 강화 단계)
+
+**패키지:** `model.skill`
+
+**값:**
+
+| Enum 값 | 레벨 (`level`) |
+|---------|----------------|
+| `SYNC_1` | 1 |
+| `SYNC_2` | 2 |
+| `SYNC_3` | 3 |
+| `SYNC_4` | 4 |
+
+**메서드:**
+- `int getLevel()`: 레벨 숫자 반환
+- `static SyncLevel fromInt(int level)`: 숫자로부터 SyncLevel 생성
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/SyncLevel.java:1`
+
+---
+
+#### 2.4 CoinType
+
+**설명:** 스킬 코인 타입
+
+**패키지:** `model.skill`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `NORMAL` | 일반 코인 |
+| `UNBREAKABLE` | 불파괴 코인 (합 패배 시에도 파괴 안됨) |
+| `REUSE` | 재사용 코인 (특수) |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/CoinType.java:1`
+
+---
+
+#### 2.5 TriggerCode
+
+**설명:** 효과 발동 트리거 (스킬 및 패시브)
+
+**패키지:** `model.skill`
+
+**스킬 트리거:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `NONE` | 트리거 없음 |
+| `ON_HIT` | [적중시] |
+| `ON_CRITICAL_HIT` | [크리티컬 적중시] |
+| `ON_HEAD_HIT` | [앞면 적중시] |
+| `ON_TAIL_HIT` | [뒷면 적중시] |
+| `ON_USE` | [사용시] |
+| `ON_WIN_CLASH` | [합 승리시] |
+| `ON_WIN_CLASH_HIT` | [합 승리 적중시] |
+| `ON_LOSE_CLASH` | [합 패배시] |
+| `ON_DROP` | [이 스킬이 버려지면] |
+| `ON_ATTACK_END` | [공격 종료 시] |
+| `ON_KILL` | [적 처치 시] |
+
+**패시브 트리거:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `ON_BATTLE_START` | [전투 시작 시] |
+| `ON_TURN_START` | [턴 시작 시] |
+| `ON_TURN_END` | [턴 종료 시] |
+| `ON_ALLY_ATTACK` | [아군이 공격을 가할 시] |
+| `ON_ALLY_HIT` | [아군이 적중 시] |
+| `ON_ALLY_KILL` | [아군이 적 처치 시] |
+| `ON_DAMAGED` | [피격 시] |
+| `ON_STATUS_INFLICTED` | [상태 이상 부여 시] |
+| `ON_STATUS_RECEIVED` | [상태 이상 받을 시] |
+| `ALWAYS` | [전투 중] (항상 활성) |
+
+**기타:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `ON_CONDITION_MET` | 명시된 조건 충족 시 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/TriggerCode.java:1`
+
+---
+
+### 3. 효과 시스템 Enum
+
+#### 3.1 ActionType
+
+**설명:** 효과 동작 타입 (실제 게임 내 효과)
+
+**패키지:** `model.skill.effect`
+
+**상태 이상:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `STATUS_INFLICT` | 상태 이상 부여 |
+| `STATUS_REMOVE` | 상태 해제 |
+
+**스탯 버프/디버프:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `BUFF_DAMAGE_UP` | 공격력 증가 |
+| `BUFF_DAMAGE_DOWN` | 공격력 감소 |
+| `BUFF_DEFENSE_UP` | 방어력 증가 |
+| `BUFF_DEFENSE_DOWN` | 방어력 감소 |
+
+**리소스:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `RESOURCE_GAIN` | 자원 획득 (충전, 경혈 등) |
+| `RESOURCE_CONSUME` | 자원 소모 |
+| `RESOURCE_SET` | 자원 설정 (고정값으로) |
+
+**피해/회복:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `DAMAGE_MODIFY` | 피해량 변경 (%) |
+| `POWER_MODIFY` | 위력 변경 |
+| `HEAL_HP` | 체력 회복 |
+| `CONSUME_HP` | 체력 소모 |
+
+**코인:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `COIN_POWER_UP` | 코인 위력 + |
+| `CLASH_POWER_UP` | 합 위력 + |
+
+**특수:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `COMMAND_ATTACK` | 원호 공격 명령 |
+| `TRANSFORM_SKILL` | 스킬 변환 |
+| `SUPPRESS_EFFECT` | 기존 효과 억제 |
+| `ETC` | 기타 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/effect/ActionType.java:1`
+
+---
+
+#### 3.2 ActionScope
+
+**설명:** 효과 적용 범위 (스킬/코인)
+
+**패키지:** `model.skill.effect`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `SKILL` | 스킬 전체 |
+| `COINS_SKILL` | 스킬의 모든 코인 |
+| `COIN_EACH` | 각 코인마다 |
+| `COIN_LAST` | 마지막 코인 |
+| `COIN_FIRST` | 첫 번째 코인 |
+| `COIN_INDEX` | 특정 인덱스 코인 |
+| `THIS_COIN` | 현재 코인 (코인 효과에서) |
+| `NEXT_COIN` | 다음 코인 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/effect/ActionScope.java:1`
+
+---
+
+#### 3.3 ApplyPolicy
+
+**설명:** 효과 적용 정책
+
+**패키지:** `model.skill.effect`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `ADD` | 덧셈 (기존 값에 추가) |
+| `MULTIPLY` | 곱셈 |
+| `OVERRIDE` | 덮어쓰기 |
+| `SUPPRESS` | 기존 효과 억제 |
+| `REPLACE_OUTCOME` | 결과 대체 |
+| `SET` | 고정값 설정 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/effect/ApplyPolicy.java:1`
+
+---
+
+#### 3.4 AmountExprType
+
+**설명:** 수치 표현 방식
+
+**패키지:** `model.skill.effect`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `FLAT` | 고정 숫자 (예: "3") |
+| `FORMULA` | 동적 계산식 (예: "충전 / 5") |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/effect/AmountExprType.java:1`
+
+---
+
+#### 3.5 ActionUnit
+
+**설명:** 수치 단위
+
+**패키지:** `model.skill.effect`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `STACK` | 스택 (상태 이상) |
+| `FLAT` | 절대값 |
+| `PERCENT` | 백분율 (%) |
+| `PERCENT_OF_MAX_HP` | 최대 체력의 % |
+| `PERCENT_OF_DAMAGE` | 입힌 피해의 % |
+| `PER_N` | N당 (설정값 필요) |
+| `PER_3` | 3당 |
+| `PER_10` | 10당 |
+| `UNITLESS` | 단위 없음 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/effect/ActionUnit.java:1`
+
+---
+
+#### 3.6 ActionTiming
+
+**설명:** 효과 적용 시점
+
+**패키지:** `model.skill.effect`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `IMMEDIATE` | 즉시 |
+| `THIS_TURN` | 이번 턴 |
+| `NEXT_TURN` | 다음 턴 |
+| `TURN_END` | 턴 종료 시 |
+| `NEXT_COIN` | 다음 코인 |
+| `ATTACK_END` | 공격 종료 시 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/effect/ActionTiming.java:1`
+
+---
+
+#### 3.7 SelectorType
+
+**설명:** 대상 선택 전략
+
+**패키지:** `model.skill.effect`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `ALL` | 모두 |
+| `RANDOM` | 랜덤 |
+| `HIGHEST` | 특정 스탯 최대 |
+| `LOWEST` | 특정 스탯 최소 |
+| `FASTEST` | 속도 가장 빠른 |
+| `SLOWEST` | 속도 가장 느린 |
+| `FIRST` | 첫 번째 |
+| `LAST` | 마지막 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/effect/SelectorType.java:1`
+
+---
+
+#### 3.8 CoinSelectorType
+
+**설명:** 코인 선택 타입
+
+**패키지:** `model.skill.effect`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `ALL` | 모든 코인 |
+| `FIRST` | 첫 번째 코인 |
+| `LAST` | 마지막 코인 |
+| `INDEX` | 특정 인덱스 |
+| `CURRENT` | 현재 코인 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/effect/CoinSelectorType.java:1`
+
+---
+
+### 4. 조건 시스템 Enum
+
+#### 4.1 ConditionScope
+
+**설명:** 조건 범위 (어느 단계의 컨텍스트인지)
+
+**패키지:** `model.skill`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `BATTLE` | 전투 레벨 |
+| `TURN` | 턴 레벨 |
+| `SKILL` | 스킬 레벨 |
+| `COIN` | 코인 레벨 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/ConditionScope.java:1`
+
+---
+
+#### 4.2 LogicalOperator
+
+**설명:** 논리 연산자 (복합 조건)
+
+**패키지:** `model.skill`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `AND` | 논리곱 (모든 조건 만족) |
+| `OR` | 논리합 (하나 이상 만족) |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/LogicalOperator.java:1`
+
+---
+
+#### 4.3 ConditionOperator
+
+**설명:** 조건 비교 연산자
+
+**패키지:** `model.skill`
+
+**값:**
+
+| Enum 값 | 설명 | 기호 |
+|---------|------|------|
+| `EQUAL` | 같음 | `==` |
+| `NOT_EQUAL` | 같지 않음 | `!=` |
+| `GREATER_THAN` | 초과 | `>` |
+| `GREATER_THAN_OR_EQUAL` | 이상 | `>=` |
+| `LESS_THAN` | 미만 | `<` |
+| `LESS_THAN_OR_EQUAL` | 이하 | `<=` |
+| `IN_RANGE` | 범위 내 | `BETWEEN` |
+| `DIVISIBLE_BY` | 나누어떨어짐 | `% N == 0` (N당) |
+| `HAS_TAG` | 태그 보유 여부 | - |
+| `HAS_STATUS` | 상태 이상 보유 여부 | - |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/ConditionOperator.java:1`
+
+---
+
+#### 4.4 ConditionTarget
+
+**설명:** 조건 검사 대상
+
+**패키지:** `model.skill`
+
+**기본 대상:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `SELF` | 자신 |
+| `ENEMY` | 대상 (단일 적) |
+| `ENEMY_ALL` | 모든 적 |
+| `ALLY` | 아군 (단일) |
+| `ALLY_ALL` | 모든 아군 |
+| `SELF_ALLY` | 자신 포함 아군 |
+| `ANY` | 모두 |
+
+**조작 패널 위치 기반:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `RIGHT_ALLY` | 우측 아군 |
+| `LEFT_ALLY` | 좌측 아군 |
+
+**특수:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `LOWEST_HP_ALLY` | 체력 비율 낮은 아군 |
+| `HIGHEST_RESONANCE` | 공명 높은 대상 |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/skill/ConditionTarget.java:1`
+
+---
+
+### 5. 패시브 관련 Enum
+
+#### 5.1 PassiveKind
+
+**설명:** 패시브 종류
+
+**패키지:** `model.passive`
+
+**값:**
+
+| Enum 값 | 설명 |
+|---------|------|
+| `NORMAL` | 일반 패시브 (기본) |
+| `SUPPORT` | 서포트 패시브 (동기화 3/4) |
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/passive/PassiveKind.java:1`
+
+---
+
+#### 5.2 ConditionType (패시브 조건)
+
+**설명:** 패시브 발동 조건 타입
+
+**패키지:** `model.passive`
+
+**값:**
+
+| Enum 값 | 한글명 (`nameKo`) | 예시 |
+|---------|-------------------|------|
+| `HOLD` | 보유 | "오만 보유 3" |
+| `RESONATE` | 공명 | "오만 공명 3" |
+
+**특징:**
+- `@Getter` 어노테이션으로 `nameKo` 필드 접근 가능
+- 패시브 스킬 발동을 위한 죄악 속성 조건
+
+**파일 위치:** `gesellschaft-domain/src/main/java/model/passive/ConditionType.java:1`
+
+---
+
 ## 주요 설계 패턴
 
 ### 1. Aggregate Pattern
@@ -826,6 +1464,7 @@ range_condition (id → abstract_condition.id)
 
 ### 엔티티 통계
 - **총 엔티티 수:** 16개
+- **총 Enum 수:** 26개
 - **Aggregate Root:** PersonaJpa
 - **상속 계층:** AbstractConditionJpa (JOINED)
 - **임베디드 평탄화:** PersonaJpa (Resistance, Speed, Health, Season), PersonaPassiveJpa (PassiveCondition)

@@ -11,11 +11,6 @@ import model.passive.PassiveKind;
 import model.passive.PersonaPassive;
 import model.skill.SyncLevel;
 
-/**
- * PersonaPassive JPA 엔티티
- * - 인격 패시브 (일반 / 서포트)
- * - PassiveCondition은 Embedded 방식으로 평탄화
- */
 @Entity
 @Table(name = "persona_passive")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -55,7 +50,7 @@ public class PersonaPassiveJpa {
     private PersonaJpa persona;
 
     @OneToOne(mappedBy = "personaPassive", cascade = CascadeType.ALL, orphanRemoval = true)
-    private PassiveEffectJpa effect;
+    private PassiveDescriptionJpa effect;
 
     @Builder
     public PersonaPassiveJpa(String name, PassiveKind kind, SyncLevel syncLevel,
@@ -121,7 +116,7 @@ public class PersonaPassiveJpa {
         this.persona = persona;
     }
 
-    public void setEffect(PassiveEffectJpa effect) {
+    public void setEffect(PassiveDescriptionJpa effect) {
         this.effect = effect;
         if (effect != null) {
             effect.setPersonaPassive(this);

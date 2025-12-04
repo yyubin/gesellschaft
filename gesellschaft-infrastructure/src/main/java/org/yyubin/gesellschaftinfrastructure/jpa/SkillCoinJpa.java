@@ -37,7 +37,7 @@ public class SkillCoinJpa {
     private SkillStatsBySyncJpa statsBySync;
 
     @OneToMany(mappedBy = "skillCoin", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CoinEffectJpa> coinEffects = new ArrayList<>();
+    private List<SkillDescriptionJpa> skillEffects = new ArrayList<>();
 
     @Builder
     public SkillCoinJpa(int orderIndex, CoinType coinType) {
@@ -80,15 +80,5 @@ public class SkillCoinJpa {
     // 양방향 관계 편의 메서드
     public void setStatsBySync(SkillStatsBySyncJpa statsBySync) {
         this.statsBySync = statsBySync;
-    }
-
-    public void addCoinEffect(CoinEffectJpa effect) {
-        this.coinEffects.add(effect);
-        effect.setSkillCoin(this);
-    }
-
-    public void removeCoinEffect(CoinEffectJpa effect) {
-        this.coinEffects.remove(effect);
-        effect.setSkillCoin(null);
     }
 }

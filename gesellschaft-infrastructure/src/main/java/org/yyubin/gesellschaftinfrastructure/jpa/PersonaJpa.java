@@ -40,8 +40,7 @@ public class PersonaJpa {
     @Column
     private LocalDate releaseDate;
 
-    @Column(nullable = false)
-    private int maxLevel = 50;
+    private int maxLevel;
 
     // === 내성 정보 (Embedded) ===
     @Enumerated(EnumType.STRING)

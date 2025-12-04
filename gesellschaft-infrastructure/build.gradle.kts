@@ -55,8 +55,8 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // Jinx (DDL 생성)
-    annotationProcessor("io.github.yyubin:jinx-processor:0.0.14")
-    implementation("io.github.yyubin:jinx-core:0.0.14")
+    annotationProcessor("io.github.yyubin:jinx-processor:0.0.17")
+    implementation("io.github.yyubin:jinx-core:0.0.17")
 
     // Project dependencies
     implementation(project(":gesellschaft-domain"))
@@ -66,7 +66,7 @@ dependencies {
 val jinxCli by configurations.creating
 
 dependencies {
-    "jinxCli"("io.github.yyubin:jinx-cli:0.0.14")
+    "jinxCli"("io.github.yyubin:jinx-cli:0.0.17")
 }
 
 tasks.register<JavaExec>("jinxMigrate") {

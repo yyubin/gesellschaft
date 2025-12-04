@@ -31,6 +31,7 @@ public class PersonaImageJpa {
 
     private int priority;
 
+    @Column(name = "is_primary")
     private boolean isPrimary;
 
     @ManyToOne(fetch = FetchType.LAZY)
