@@ -21,15 +21,15 @@ public class PersonaPassiveJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100)
+    @Column(name = "name", length = 100)
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 10)
+    @Column(name = "kind", length = 10)
     private PassiveKind kind;  // NORMAL / SUPPORT
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 10)
+    @Column(name = "sync_level", length = 10)
     private SyncLevel syncLevel;  // nullable (SUPPORT일 때만)
 
     // PassiveCondition 필드들 (Embedded - 평탄화)

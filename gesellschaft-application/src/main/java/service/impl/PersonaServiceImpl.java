@@ -50,4 +50,17 @@ public class PersonaServiceImpl implements PersonaService {
             .map(persona -> PersonaResponse.from(persona, sinnerResponse))
             .toList();
     }
+
+    @Override
+    public List<PersonaResponse> getPersonasWithCursor(Long afterId, Long beforeId, Integer limit) {
+        List<Persona> personas = personaRepository.findAllWithCursor(afterId, beforeId, limit);
+        return personas.stream()
+            .map(persona -> PersonaResponse.from(persona, null))
+            .toList();
+    }
+
+    @Override
+    public long countPersonas() {
+        return personaRepository.count();
+    }
 }

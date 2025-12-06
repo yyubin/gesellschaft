@@ -11,4 +11,8 @@ public interface PersonaRepository {
     List<Persona> findAll();
     List<Persona> findBySinnerId(Long sinnerId);
 
+    // Cursor-based pagination
+    List<Persona> findAllWithCursor(Long afterId, Long beforeId, Integer limit);
+    long count();
+
 }

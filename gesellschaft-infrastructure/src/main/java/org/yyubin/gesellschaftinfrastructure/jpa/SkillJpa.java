@@ -30,35 +30,36 @@ public class SkillJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "skill_number")
     private int skillNumber;  // 1, 2, 3
 
-    @Column(length = 100)
+    @Column(name = "name", length = 100)
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(name = "skill_category", length = 20)
     private SkillCategoryType skillCategory;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(name = "sin_affinity", length = 20)
     private SinAffinity sinAffinity;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 30)
+    @Column(name = "keyword_type", length = 30)
     private KeywordType keywordType;
 
-    @Column
+    @Column(name = "skill_quantity")
     private Integer skillQuantity;  // nullable (방어 스킬은 없음)
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(name = "attack_type", length = 20)
     private AttackType attackType;  // nullable
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(name = "defense_type", length = 20)
     private DefenseType defenseType;  // nullable
 
-    @Column(length = 500)
+    @Column(name = "skill_image", length = 500)
     private String skillImage;  // nullable
 
     // 관계

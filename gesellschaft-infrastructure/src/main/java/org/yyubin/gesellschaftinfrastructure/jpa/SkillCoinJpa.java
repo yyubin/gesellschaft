@@ -25,10 +25,11 @@ public class SkillCoinJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "order_index")
     private int orderIndex;  // 코인 순서 (0부터)
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(name = "coin_type", length = 20)
     private CoinType coinType;
 
     // 관계

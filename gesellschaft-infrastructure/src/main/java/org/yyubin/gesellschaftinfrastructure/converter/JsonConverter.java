@@ -10,10 +10,6 @@ import jakarta.persistence.Converter;
 
 import java.io.IOException;
 
-/**
- * JSON 컨버터 베이스 클래스
- * - 복잡한 객체를 JSON 문자열로 변환하여 DB에 저장
- */
 public abstract class JsonConverter<T> implements AttributeConverter<T, String> {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()

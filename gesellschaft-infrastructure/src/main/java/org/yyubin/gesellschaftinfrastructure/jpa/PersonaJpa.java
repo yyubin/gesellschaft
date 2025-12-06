@@ -27,19 +27,20 @@ public class PersonaJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(length = 100)
+    @Column(name = "name_en", length = 100)
     private String nameEn;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(name = "grade", length = 20)
     private GradeType grade;
 
-    @Column
+    @Column(name = "release_date")
     private LocalDate releaseDate;
 
+    @Column(name = "max_level")
     private int maxLevel;
 
     // === 내성 정보 (Embedded) ===
@@ -90,6 +91,7 @@ public class PersonaJpa {
     @Column(name = "defense_level")
     private int defenseLevel;
 
+    @Column(name = "mentality")
     private int mentality;
 
     // === 관계 ===

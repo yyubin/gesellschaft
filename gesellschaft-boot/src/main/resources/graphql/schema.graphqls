@@ -1,0 +1,243 @@
+# Query Root Type
+type Query {
+    # Sinner queries
+    sinner(id: ID!): Sinner
+
+    # Persona queries
+    persona(id: ID!): Persona
+    personas(first: Int, after: String, last: Int, before: String): PersonaConnection!
+    personasBySinner(sinnerId: ID!): [Persona!]!
+}
+
+# Sinner Type
+type Sinner {
+    id: ID!
+    name: String!
+    nameEn: String!
+}
+
+# Persona Type
+type Persona {
+    id: ID!
+    name: String!
+    nameEn: String!
+    prisoner: Sinner!
+    grade: GradeType!
+    resistanceInfo: ResistanceInfo
+    speedInfo: SpeedInfo
+    healthInfo: HealthInfo
+    seasonInfo: SeasonInfo
+    defenseLevel: Int!
+    mentality: Int!
+    affiliation: SubAffiliation
+    passives: [PersonaPassive!]!
+    images: [PersonaImage!]!
+    skills: [Skill!]!
+    releaseDate: String
+}
+
+# Resistance Info Type
+type ResistanceInfo {
+    slashResistance: ResistanceType!
+    penetrationResistance: ResistanceType!
+    bluntResistance: ResistanceType!
+}
+
+# Speed Info Type
+type SpeedInfo {
+    minSpeed: Int!
+    maxSpeed: Int!
+}
+
+# Health Info Type
+type HealthInfo {
+    baseHealth: Int!
+    growthRate: Float!
+    disturbed1: Int!
+    disturbed2: Int!
+    disturbed3: Int!
+}
+
+# Season Info Type
+type SeasonInfo {
+    seasonType: SeasonType!
+    number: Int
+}
+
+# Sub Affiliation Type
+type SubAffiliation {
+    id: ID!
+    name: String!
+    mainCategory: MainAffiliationCategory!
+}
+
+# Persona Passive Type
+type PersonaPassive {
+    id: ID!
+    kind: PassiveKind!
+    name: String!
+    activation: PassiveActivationRequirement
+    originalText: String
+    syncLevel: SyncLevel!
+}
+
+# Passive Activation Requirement Type
+type PassiveActivationRequirement {
+    attribute: SinAffinity
+    invocationType: ConditionType
+    count: Int!
+}
+
+# Persona Image Type
+type PersonaImage {
+    type: ImageType!
+    url: String!
+    priority: Int!
+    primary: Boolean!
+}
+
+# Skill Type
+type Skill {
+    id: ID!
+    name: String!
+    skillAttribute: SinAffinity!
+    skillCategory: SkillCategoryType!
+    skillQuantity: Int
+    attackType: AttackType
+    defenseType: DefenseType
+    personaId: ID!
+    skillImage: String
+    statsBySync: [SkillStatsBySync!]!
+    keyword: KeywordType
+}
+
+# Skill Stats By Sync Type
+type SkillStatsBySync {
+    syncLevel: SyncLevel!
+    basePower: Int!
+    coinPower: Int!
+    coinCount: Int!
+    weight: Int!
+    level: Int!
+    skillEffects: [SkillEffect!]!
+    skillCoinEffects: [SkillCoinEffect!]!
+}
+
+# Skill Effect Type
+type SkillEffect {
+    originalText: String!
+}
+
+# Skill Coin Effect Type
+type SkillCoinEffect {
+    originalText: String!
+}
+
+# Enums
+enum GradeType {
+    ONE
+    TWO
+    THREE
+}
+
+enum ResistanceType {
+    NORMAL
+    WEAK
+    RESIST
+}
+
+enum SeasonType {
+    NORMAL
+    SEASON_NORMAL
+    SEASON_EVENT
+    WALPURGISNACHT
+}
+
+enum MainAffiliationCategory {
+    ASSOCIATION
+    FINGER
+    NONE
+}
+
+enum PassiveKind {
+    NORMAL
+    SUPPORT
+}
+
+enum SyncLevel {
+    SYNC_1
+    SYNC_2
+    SYNC_3
+    SYNC_4
+}
+
+enum ImageType {
+    A
+    B
+    AC
+    BC
+    SD
+}
+
+enum SinAffinity {
+    WRATH
+    LUST
+    SLOTH
+    GREED
+    GLOOM
+    PRIDE
+    ENVY
+    NONE
+}
+
+enum SkillCategoryType {
+    ATTACK
+    DEFENSE
+}
+
+enum AttackType {
+    SLASH
+    PIERCE
+    BLUNT
+}
+
+enum DefenseType {
+    COUNTER
+    EVADE
+    GUARD
+}
+
+enum KeywordType {
+    BURN
+    BLEED
+    TREMOR
+    RUPTURE
+    SINKING
+    BREATH
+    CHARGE
+    NONE
+}
+
+enum ConditionType {
+    HOLD
+    RESONATE
+}
+
+# Relay Cursor Connections (Pagination)
+type PersonaConnection {
+    edges: [PersonaEdge!]!
+    pageInfo: PageInfo!
+    totalCount: Int
+}
+
+type PersonaEdge {
+    node: Persona!
+    cursor: String!
+}
+
+type PageInfo {
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+    endCursor: String
+}

@@ -27,17 +27,22 @@ public class SkillStatsBySyncJpa {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 10)
+    @Column(name = "sync_level", length = 10)
     private SyncLevel syncLevel;  // SYNC_1, SYNC_2, SYNC_3, SYNC_4
 
+    @Column(name = "base_power")
     private int basePower;
 
+    @Column(name = "coin_power")
     private int coinPower;
 
+    @Column(name = "coin_count")
     private int coinCount;
 
+    @Column(name = "weight")
     private int weight;
 
+    @Column(name = "level")
     private int level;
 
     // 관계

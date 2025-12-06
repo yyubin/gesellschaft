@@ -26,10 +26,10 @@ public class SinnerJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false, length = 20)
+    @Column(name = "name", unique = true, nullable = false, length = 20)
     private String name;
 
-    @Column(unique = true, nullable = false, length = 40)
+    @Column(name = "name_en", unique = true, nullable = false, length = 40)
     private String nameEn;
 
     @OneToMany(mappedBy = "sinner", cascade = CascadeType.ALL, orphanRemoval = true)

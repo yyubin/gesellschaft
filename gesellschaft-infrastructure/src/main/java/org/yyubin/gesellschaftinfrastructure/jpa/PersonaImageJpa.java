@@ -23,12 +23,13 @@ public class PersonaImageJpa {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 10)
+    @Column(name = "type", length = 10)
     private ImageType type;
 
-    @Column(length = 500)
+    @Column(name = "url", length = 500)
     private String url;
 
+    @Column(name = "priority")
     private int priority;
 
     @Column(name = "is_primary")

@@ -17,7 +17,7 @@ public class SubAffiliationJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100)
+    @Column(name = "name", length = 100)
     private String name;
 
     @Enumerated(EnumType.STRING)
