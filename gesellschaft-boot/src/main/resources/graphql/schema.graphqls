@@ -2,11 +2,13 @@
 type Query {
     # Sinner queries
     sinner(id: ID!): Sinner
+    sinners: [Sinner!]!
 
     # Persona queries
     persona(id: ID!): Persona
-    personas(first: Int, after: String, last: Int, before: String): PersonaConnection!
+    personas(input: PaginationInput!): PersonaConnection!
     personasBySinner(sinnerId: ID!): [Persona!]!
+    similarPersonas(personaId: ID!, limit: Int): [Persona!]!
 }
 
 # Sinner Type
@@ -221,6 +223,14 @@ enum KeywordType {
 enum ConditionType {
     HOLD
     RESONATE
+}
+
+# Input Types
+input PaginationInput {
+    first: Int
+    after: String
+    last: Int
+    before: String
 }
 
 # Relay Cursor Connections (Pagination)

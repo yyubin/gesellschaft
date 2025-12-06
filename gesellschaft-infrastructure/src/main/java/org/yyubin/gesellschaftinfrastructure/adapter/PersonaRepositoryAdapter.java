@@ -2,7 +2,6 @@ package org.yyubin.gesellschaftinfrastructure.adapter;
 
 import lombok.RequiredArgsConstructor;
 import model.persona.Persona;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import org.yyubin.gesellschaftinfrastructure.jpa.PersonaJpa;
 import org.yyubin.gesellschaftinfrastructure.mapper.PersonaMapper;

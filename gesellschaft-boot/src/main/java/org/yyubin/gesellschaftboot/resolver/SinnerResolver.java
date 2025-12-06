@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.yyubin.gesellschaftboot.dto.SinnerResponseDto;
 import service.SinnerService;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class SinnerResolver {
@@ -17,5 +19,13 @@ public class SinnerResolver {
     public SinnerResponseDto sinner(@Argument Long id) {
         var response = sinnerService.getSinnerById(id);
         return SinnerResponseDto.from(response);
+    }
+
+    @QueryMapping
+    public List<SinnerResponseDto> sinners() {
+        var responses = sinnerService.getAllSinners();
+        return responses.stream()
+            .map(SinnerResponseDto::from)
+            .toList();
     }
 }

@@ -34,6 +34,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation(project(":gesellschaft-application"))
     implementation(project(":gesellschaft-infrastructure"))
+    implementation(project(":gesellschaft-infrastructure-neo4j"))
     implementation(project(":gesellschaft-domain"))
 }
 

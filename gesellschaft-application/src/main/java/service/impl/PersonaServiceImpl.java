@@ -1,14 +1,18 @@
 package service.impl;
 
-import dto.PersonaResponse;
-import dto.SinnerResponse;
+import dto.*;
 import exception.PersonaNotFoundException;
 import lombok.RequiredArgsConstructor;
-import model.Sinner;
 import model.persona.Persona;
+import port.PersonaRecommendationRepository;
 import port.PersonaRepository;
-import port.SinnerRepository;
+import query.GetPersonaByIdQuery;
+import query.GetPersonasQuery;
+import query.GetPersonasBySinnerQuery;
+import query.GetSimilarPersonasQuery;
 import service.PersonaService;
+import service.SinnerService;
+import util.CursorUtil;
 
 import java.util.List;
 
@@ -16,20 +20,83 @@ import java.util.List;
 public class PersonaServiceImpl implements PersonaService {
 
     private final PersonaRepository personaRepository;
-    private final SinnerRepository sinnerRepository;
+    private final SinnerService sinnerService;
 
     @Override
-    public PersonaResponse getPersonaById(Long id) {
-        Persona persona = personaRepository.findById(id)
-            .orElseThrow(() -> new PersonaNotFoundException(id));
-
-        // Persona는 Sinner에 대한 참조를 직접 가지지 않으므로,
-        // JPA 엔티티를 통해 조회하거나 별도로 조회해야 함
-        // 임시로 null 처리 (실제로는 PersonaJpa에서 Sinner 정보를 가져와야 함)
+    public PersonaResponse getPersona(GetPersonaByIdQuery query) {
+        Persona persona = personaRepository.findById(query.id())
+            .orElseThrow(() -> new PersonaNotFoundException(query.id()));
         return PersonaResponse.from(persona, null);
     }
 
     @Override
+    public PersonaConnectionResponse getPersonas(GetPersonasQuery query) {
+        // Decode cursors
+        Long afterId = CursorUtil.decode(query.after());
+        Long beforeId = CursorUtil.decode(query.before());
+
+        // Fetch data
+        List<Persona> personas = personaRepository.findAllWithCursor(afterId, beforeId, query.getPageSize());
+
+        // Check if there are more items
+        boolean hasMore = personas.size() > query.getActualLimit();
+        if (hasMore) {
+            personas = personas.subList(0, query.getActualLimit());
+        }
+
+        // Reverse if backward pagination
+        if (!query.isForward() && beforeId != null) {
+            personas = personas.reversed();
+        }
+
+        // Convert to responses
+        List<PersonaResponse> personaResponses = personas.stream()
+            .map(persona -> PersonaResponse.from(persona, null))
+            .toList();
+
+        // Create edges
+        List<PersonaEdgeResponse> edges = personaResponses.stream()
+            .map(response -> {
+                String cursor = CursorUtil.encode(response.id());
+                return PersonaEdgeResponse.of(response, cursor);
+            })
+            .toList();
+
+        // Create page info
+        String startCursor = edges.isEmpty() ? null : edges.get(0).cursor();
+        String endCursor = edges.isEmpty() ? null : edges.get(edges.size() - 1).cursor();
+
+        boolean hasNextPage = query.isForward() ? hasMore : (afterId != null || beforeId != null);
+        boolean hasPreviousPage = !query.isForward() ? hasMore : (afterId != null);
+
+        PageInfoResponse pageInfo = PageInfoResponse.of(hasNextPage, hasPreviousPage, startCursor, endCursor);
+
+        // Get total count
+        long totalCount = personaRepository.count();
+
+        return PersonaConnectionResponse.of(edges, pageInfo, (int) totalCount);
+    }
+
+    @Override
+    public List<PersonaResponse> getPersonasBySinner(GetPersonasBySinnerQuery query) {
+        List<Persona> personas = personaRepository.findBySinnerId(query.sinnerId());
+
+        SinnerResponse sinnerResponse = sinnerService.getSinnerByIdOrNull(query.sinnerId());
+
+        return personas.stream()
+            .map(persona -> PersonaResponse.from(persona, sinnerResponse))
+            .toList();
+    }
+
+    // Legacy methods
+    @Override
+    @Deprecated(forRemoval = true)
+    public PersonaResponse getPersonaById(Long id) {
+        return getPersona(new GetPersonaByIdQuery(id));
+    }
+
+    @Override
+    @Deprecated(forRemoval = true)
     public List<PersonaResponse> getAllPersonas() {
         List<Persona> personas = personaRepository.findAll();
         return personas.stream()
@@ -38,29 +105,8 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
+    @Deprecated(forRemoval = true)
     public List<PersonaResponse> getPersonasBySinnerId(Long sinnerId) {
-        List<Persona> personas = personaRepository.findBySinnerId(sinnerId);
-
-        // Sinner 정보 조회
-        Sinner sinner = sinnerRepository.findById(sinnerId)
-            .orElse(null);
-        SinnerResponse sinnerResponse = sinner != null ? SinnerResponse.from(sinner) : null;
-
-        return personas.stream()
-            .map(persona -> PersonaResponse.from(persona, sinnerResponse))
-            .toList();
-    }
-
-    @Override
-    public List<PersonaResponse> getPersonasWithCursor(Long afterId, Long beforeId, Integer limit) {
-        List<Persona> personas = personaRepository.findAllWithCursor(afterId, beforeId, limit);
-        return personas.stream()
-            .map(persona -> PersonaResponse.from(persona, null))
-            .toList();
-    }
-
-    @Override
-    public long countPersonas() {
-        return personaRepository.count();
+        return getPersonasBySinner(new GetPersonasBySinnerQuery(sinnerId));
     }
 }

@@ -7,6 +7,7 @@ import org.yyubin.gesellschaftinfrastructure.mapper.SinnerMapper;
 import org.yyubin.gesellschaftinfrastructure.repository.SinnerJpaRepository;
 import port.SinnerRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,6 +21,13 @@ public class SinnerRepositoryAdapter implements SinnerRepository {
     public Optional<Sinner> findById(Long id) {
         return jpaRepository.findById(id)
             .map(mapper::toDomain);
+    }
+
+    @Override
+    public List<Sinner> findAll() {
+        return jpaRepository.findAll().stream()
+            .map(mapper::toDomain)
+            .toList();
     }
 
     @Override
